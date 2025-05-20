@@ -1,0 +1,397 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entry Management{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Entry Management</h1>
+                        <div>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportModal">
+                                <i class="fas fa-file-export me-2"></i>Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label for="agency_filter" class="form-label">Agency</label>
+                            <select class="form-select" id="agency_filter">
+                                <option value="">All Agencies</option>
+                                <option value="bai">BAI</option>
+                                <option value="bfar">BFAR</option>
+                                <option value="bpi">BPI</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="status_filter" class="form-label">Status</label>
+                            <select class="form-select" id="status_filter">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="for_inspection">For Inspection</option>
+                                <option value="inspection_completed">Inspection Completed</option>
+                                <option value="for_payment">For Payment</option>
+                                <option value="payment_received">Payment Received</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_from" class="form-label">Date From</label>
+                            <input type="date" class="form-control" id="date_from">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_to" class="form-label">Date To</label>
+                            <input type="date" class="form-control" id="date_to">
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Entry #</th>
+                                    <th>Client</th>
+                                    <th>Agency</th>
+                                    <th>Status</th>
+                                    <th>Submission Date</th>
+                                    <th>Last Updated</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ENT-2024-001</td>
+                                    <td>ABC Company</td>
+                                    <td><span class="badge bg-info">BAI</span></td>
+                                    <td><span class="badge bg-warning">For Inspection</span></td>
+                                    <td>2024-03-15 09:30</td>
+                                    <td>2024-03-15 10:15</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewEntryModal">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectEntryModal">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ENT-2024-002</td>
+                                    <td>XYZ Corp</td>
+                                    <td><span class="badge bg-success">BFAR</span></td>
+                                    <td><span class="badge bg-info">For Payment</span></td>
+                                    <td>2024-03-15 10:45</td>
+                                    <td>2024-03-15 11:30</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewEntryModal">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectEntryModal">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ENT-2024-003</td>
+                                    <td>DEF Ltd</td>
+                                    <td><span class="badge bg-warning">BPI</span></td>
+                                    <td><span class="badge bg-success">Approved</span></td>
+                                    <td>2024-03-14 14:20</td>
+                                    <td>2024-03-15 09:45</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewEntryModal">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectEntryModal">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Entry Modal -->
+<div class="modal fade" id="viewEntryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Entry Details - ENT-2024-001</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6>Client Information</h6>
+                        <p><strong>Company:</strong> ABC Company</p>
+                        <p><strong>Contact Person:</strong> John Doe</p>
+                        <p><strong>Email:</strong> john@abccompany.com</p>
+                        <p><strong>Phone:</strong> +63 912 345 6789</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Entry Information</h6>
+                        <p><strong>Entry Number:</strong> ENT-2024-001</p>
+                        <p><strong>Agency:</strong> BAI</p>
+                        <p><strong>Status:</strong> <span class="badge bg-warning">For Inspection</span></p>
+                        <p><strong>Submission Date:</strong> 2024-03-15 09:30</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h6>Documents</h6>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">SSDT</h6>
+                                <small>2.5 MB</small>
+                            </div>
+                            <small class="text-muted">Uploaded on 2024-03-15 09:30</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">SPS</h6>
+                                <small>1.8 MB</small>
+                            </div>
+                            <small class="text-muted">Uploaded on 2024-03-15 09:30</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Health Certificate</h6>
+                                <small>3.2 MB</small>
+                            </div>
+                            <small class="text-muted">Uploaded on 2024-03-15 09:30</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h6>Inspection Photos</h6>
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <img src="https://via.placeholder.com/300x200" class="img-fluid rounded" alt="Inspection Photo 1">
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://via.placeholder.com/300x200" class="img-fluid rounded" alt="Inspection Photo 2">
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://via.placeholder.com/300x200" class="img-fluid rounded" alt="Inspection Photo 3">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h6>Status History</h6>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Status changed to For Inspection</h6>
+                                <small>2024-03-15 10:15</small>
+                            </div>
+                            <p class="mb-1">By: Jane BAI</p>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Entry submitted</h6>
+                                <small>2024-03-15 09:30</small>
+                            </div>
+                            <p class="mb-1">By: John Doe</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                    Update Status
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal fade" id="updateStatusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Entry Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="new_status" class="form-label">New Status</label>
+                        <select class="form-select" id="new_status" required>
+                            <option value="">Select Status</option>
+                            <option value="for_inspection">For Inspection</option>
+                            <option value="inspection_completed">Inspection Completed</option>
+                            <option value="for_payment">For Payment</option>
+                            <option value="payment_received">Payment Received</option>
+                            <option value="approved">Approved</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status_notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="status_notes" rows="3" placeholder="Add any notes about this status change..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notify_client">
+                            <label class="form-check-label" for="notify_client">
+                                Notify client about this status change
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Update Status</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Entry Modal -->
+<div class="modal fade" id="rejectEntryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Entry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="rejection_reason" class="form-label">Reason for Rejection</label>
+                        <select class="form-select" id="rejection_reason" required>
+                            <option value="">Select Reason</option>
+                            <option value="incomplete_docs">Incomplete Documents</option>
+                            <option value="invalid_docs">Invalid Documents</option>
+                            <option value="failed_inspection">Failed Inspection</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rejection_notes" class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="rejection_notes" rows="3" placeholder="Provide additional details about the rejection..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notify_rejection">
+                            <label class="form-check-label" for="notify_rejection">
+                                Notify client about this rejection
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Reject Entry</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Entries</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="export_format" class="form-label">Format</label>
+                        <select class="form-select" id="export_format" required>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_from" class="form-label">Date From</label>
+                        <input type="date" class="form-control" id="export_date_from">
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_to" class="form-label">Date To</label>
+                        <input type="date" class="form-control" id="export_date_to">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Include</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_docs" checked>
+                            <label class="form-check-label" for="include_docs">
+                                Document Details
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_status" checked>
+                            <label class="form-check-label" for="include_status">
+                                Status History
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_notes" checked>
+                            <label class="form-check-label" for="include_notes">
+                                Notes and Comments
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

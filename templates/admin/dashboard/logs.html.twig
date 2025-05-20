@@ -1,0 +1,439 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}System Logs{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">System Logs</h1>
+                        <div>
+                            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exportLogsModal">
+                                <i class="fas fa-download me-2"></i>Export Logs
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#clearLogsModal">
+                                <i class="fas fa-trash me-2"></i>Clear Logs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Log Statistics -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Log Statistics</h5>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h6 class="text-muted mb-1">Total Logs</h6>
+                                <h3 class="mb-0">15,234</h3>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h6 class="text-muted mb-1">Storage Used</h6>
+                                <h3 class="mb-0">245 MB</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6 class="text-muted mb-2">Log Distribution</h6>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Error</span>
+                            <span class="text-danger">1,234</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 5px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 8%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Warning</span>
+                            <span class="text-warning">2,345</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 5px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 15%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Info</span>
+                            <span class="text-info">11,655</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 5px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 77%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Log Settings</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Log Levels</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="log_error" checked>
+                                <label class="form-check-label" for="log_error">Error</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="log_warning" checked>
+                                <label class="form-check-label" for="log_warning">Warning</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="log_info" checked>
+                                <label class="form-check-label" for="log_info">Info</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="log_debug">
+                                <label class="form-check-label" for="log_debug">Debug</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="log_retention" class="form-label">Log Retention</label>
+                            <select class="form-select" id="log_retention">
+                                <option value="7">7 days</option>
+                                <option value="14">14 days</option>
+                                <option value="30" selected>30 days</option>
+                                <option value="90">90 days</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="log_rotation" class="form-label">Log Rotation</label>
+                            <select class="form-select" id="log_rotation">
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log List -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Filters -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label for="log_level" class="form-label">Log Level</label>
+                            <select class="form-select" id="log_level">
+                                <option value="">All Levels</option>
+                                <option value="error">Error</option>
+                                <option value="warning">Warning</option>
+                                <option value="info">Info</option>
+                                <option value="debug">Debug</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="log_source" class="form-label">Source</label>
+                            <select class="form-select" id="log_source">
+                                <option value="">All Sources</option>
+                                <option value="system">System</option>
+                                <option value="database">Database</option>
+                                <option value="security">Security</option>
+                                <option value="application">Application</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_from" class="form-label">Date From</label>
+                            <input type="date" class="form-control" id="date_from">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_to" class="form-label">Date To</label>
+                            <input type="date" class="form-control" id="date_to">
+                        </div>
+                    </div>
+
+                    <!-- Log Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Level</th>
+                                    <th>Source</th>
+                                    <th>Message</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-03-15 14:30:25</td>
+                                    <td><span class="badge bg-danger">Error</span></td>
+                                    <td>Database</td>
+                                    <td>Connection timeout while executing query</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewLogModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2024-03-15 14:28:15</td>
+                                    <td><span class="badge bg-warning">Warning</span></td>
+                                    <td>Security</td>
+                                    <td>Multiple failed login attempts detected</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewLogModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2024-03-15 14:25:45</td>
+                                    <td><span class="badge bg-info">Info</span></td>
+                                    <td>System</td>
+                                    <td>Backup completed successfully</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewLogModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav aria-label="Log pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Log Modal -->
+<div class="modal fade" id="viewLogModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Log Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Timestamp</dt>
+                            <dd class="col-sm-8">2024-03-15 14:30:25</dd>
+
+                            <dt class="col-sm-4">Level</dt>
+                            <dd class="col-sm-8"><span class="badge bg-danger">Error</span></dd>
+
+                            <dt class="col-sm-4">Source</dt>
+                            <dd class="col-sm-8">Database</dd>
+
+                            <dt class="col-sm-4">User</dt>
+                            <dd class="col-sm-8">John Doe (Admin)</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">IP Address</dt>
+                            <dd class="col-sm-8">192.168.1.100</dd>
+
+                            <dt class="col-sm-4">Request ID</dt>
+                            <dd class="col-sm-8">abc123def456</dd>
+
+                            <dt class="col-sm-4">Session ID</dt>
+                            <dd class="col-sm-8">xyz789uvw012</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h6>Message</h6>
+                    <p class="mb-3">Connection timeout while executing query</p>
+                    
+                    <h6>Stack Trace</h6>
+                    <pre class="bg-light p-3 rounded"><code>Error: Connection timeout
+    at Database.connect (/app/database.js:123:45)
+    at Query.execute (/app/query.js:67:89)
+    at User.find (/app/models/user.js:45:67)
+    at LoginController.authenticate (/app/controllers/login.js:34:56)</code></pre>
+                    
+                    <h6>Context</h6>
+                    <pre class="bg-light p-3 rounded"><code>{
+    "query": "SELECT * FROM users WHERE email = ?",
+    "params": ["john.doe@example.com"],
+    "timeout": 5000,
+    "attempts": 3
+}</code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Logs Modal -->
+<div class="modal fade" id="exportLogsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="export_format" class="form-label">Format</label>
+                        <select class="form-select" id="export_format">
+                            <option value="csv">CSV</option>
+                            <option value="json">JSON</option>
+                            <option value="txt">Text</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_from" class="form-label">Date From</label>
+                        <input type="date" class="form-control" id="export_date_from">
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_to" class="form-label">Date To</label>
+                        <input type="date" class="form-control" id="export_date_to">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Include Fields</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_timestamp" checked>
+                            <label class="form-check-label" for="include_timestamp">Timestamp</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_level" checked>
+                            <label class="form-check-label" for="include_level">Level</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_source" checked>
+                            <label class="form-check-label" for="include_source">Source</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_message" checked>
+                            <label class="form-check-label" for="include_message">Message</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_stack_trace">
+                            <label class="form-check-label" for="include_stack_trace">Stack Trace</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_context">
+                            <label class="form-check-label" for="include_context">Context</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Clear Logs Modal -->
+<div class="modal fade" id="clearLogsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Clear Logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Warning: This action will permanently delete all logs. This action cannot be undone.
+                </div>
+                <form>
+                    <div class="mb-3">
+                        <label for="clear_before" class="form-label">Clear logs before</label>
+                        <input type="date" class="form-control" id="clear_before">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Log Levels to Clear</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="clear_error" checked>
+                            <label class="form-check-label" for="clear_error">Error</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="clear_warning" checked>
+                            <label class="form-check-label" for="clear_warning">Warning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="clear_info" checked>
+                            <label class="form-check-label" for="clear_info">Info</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="clear_debug" checked>
+                            <label class="form-check-label" for="clear_debug">Debug</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Clear Logs</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle filter changes
+    const filters = ['log_level', 'log_source', 'date_from', 'date_to'];
+    filters.forEach(filter => {
+        const element = document.getElementById(filter);
+        if (element) {
+            element.addEventListener('change', function() {
+                // Apply filter logic here
+            });
+        }
+    });
+
+    // Handle export date range
+    const exportDateFrom = document.getElementById('export_date_from');
+    const exportDateTo = document.getElementById('export_date_to');
+    
+    if (exportDateFrom && exportDateTo) {
+        exportDateFrom.addEventListener('change', function() {
+            exportDateTo.min = this.value;
+        });
+        
+        exportDateTo.addEventListener('change', function() {
+            exportDateFrom.max = this.value;
+        });
+    }
+
+    // Handle log level change
+    const logLevel = document.getElementById('log_level');
+    if (logLevel) {
+        logLevel.addEventListener('change', function() {
+            // Update log display based on selected level
+        });
+    }
+});
+</script>
+{% endblock %}
+{% endblock %} 

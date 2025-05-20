@@ -1,0 +1,328 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audit Log{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-1">Audit Log</h1>
+                            <p class="text-muted mb-0">Track and monitor system changes and user actions</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exportModal">
+                                <i class="fas fa-download me-2"></i>Export Log
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Action Type</label>
+                            <select class="form-select">
+                                <option value="">All Actions</option>
+                                <option value="login">Login/Logout</option>
+                                <option value="create">Create</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="export">Export</option>
+                                <option value="settings">Settings Change</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">User</label>
+                            <select class="form-select">
+                                <option value="">All Users</option>
+                                <option value="1">John Doe (Admin)</option>
+                                <option value="2">Jane Smith (BAI Staff)</option>
+                                <option value="3">Bob Johnson (BFAR Staff)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Date Range</label>
+                            <input type="text" class="form-control" id="dateRange" placeholder="Select date range">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">IP Address</label>
+                            <input type="text" class="form-control" placeholder="Enter IP address">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-filter me-2"></i>Apply Filters
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audit Log Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Action</th>
+                                    <th>Entity</th>
+                                    <th>Details</th>
+                                    <th>IP Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-03-15 14:30:25</td>
+                                    <td>John Doe</td>
+                                    <td><span class="badge bg-success">Login</span></td>
+                                    <td>System</td>
+                                    <td>Successful login</td>
+                                    <td>192.168.1.100</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewDetailsModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2024-03-15 14:25:10</td>
+                                    <td>Jane Smith</td>
+                                    <td><span class="badge bg-primary">Update</span></td>
+                                    <td>Entry #12345</td>
+                                    <td>Status changed to "For Inspection"</td>
+                                    <td>192.168.1.101</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewDetailsModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2024-03-15 14:20:45</td>
+                                    <td>Bob Johnson</td>
+                                    <td><span class="badge bg-danger">Delete</span></td>
+                                    <td>User #789</td>
+                                    <td>User account deleted</td>
+                                    <td>192.168.1.102</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewDetailsModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Details Modal -->
+<div class="modal fade" id="viewDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Audit Log Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Basic Information</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>Timestamp:</th>
+                                <td>2024-03-15 14:30:25</td>
+                            </tr>
+                            <tr>
+                                <th>User:</th>
+                                <td>John Doe (Admin)</td>
+                            </tr>
+                            <tr>
+                                <th>Action:</th>
+                                <td><span class="badge bg-success">Login</span></td>
+                            </tr>
+                            <tr>
+                                <th>Entity:</th>
+                                <td>System</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Technical Details</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>IP Address:</th>
+                                <td>192.168.1.100</td>
+                            </tr>
+                            <tr>
+                                <th>User Agent:</th>
+                                <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64)</td>
+                            </tr>
+                            <tr>
+                                <th>Session ID:</th>
+                                <td>abc123xyz456</td>
+                            </tr>
+                            <tr>
+                                <th>Request Method:</th>
+                                <td>POST</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h6>Changes</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Old Value</th>
+                                    <th>New Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Status</td>
+                                    <td>Pending</td>
+                                    <td>For Inspection</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Modified</td>
+                                    <td>2024-03-15 14:20:00</td>
+                                    <td>2024-03-15 14:25:10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Audit Log</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Export Format</label>
+                        <select class="form-select">
+                            <option value="excel">Excel (.xlsx)</option>
+                            <option value="csv">CSV (.csv)</option>
+                            <option value="pdf">PDF (.pdf)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date Range</label>
+                        <input type="text" class="form-control" id="exportDateRange" placeholder="Select date range">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fields to Include</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="timestamp" checked>
+                            <label class="form-check-label">Timestamp</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="user" checked>
+                            <label class="form-check-label">User</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="action" checked>
+                            <label class="form-check-label">Action</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="entity" checked>
+                            <label class="form-check-label">Entity</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="details" checked>
+                            <label class="form-check-label">Details</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="ip" checked>
+                            <label class="form-check-label">IP Address</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize date range pickers
+    $('#dateRange, #exportDateRange').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+    });
+
+    // Handle filter form submission
+    const filterForm = document.querySelector('form');
+    filterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Implement filter logic
+        console.log('Applying filters...');
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

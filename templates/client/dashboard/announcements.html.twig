@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Announcements{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Announcements</h1>
+                        <a href="{{ path('app_client_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label for="agency" class="form-label">Filter by Agency</label>
+                            <select class="form-select" id="agency">
+                                <option value="">All Agencies</option>
+                                <option value="bai">BAI</option>
+                                <option value="bfar">BFAR</option>
+                                <option value="bpi">BPI</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="date_from" class="form-label">Date From</label>
+                            <input type="date" class="form-control" id="date_from">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="date_to" class="form-label">Date To</label>
+                            <input type="date" class="form-control" id="date_to">
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Important Notice: New Submission Requirements</h5>
+                                <small class="text-muted">3 days ago</small>
+                            </div>
+                            <p class="mb-1">Starting next month, all submissions must include additional documentation for verification purposes.</p>
+                            <small class="text-muted">Posted by: BAI Administration</small>
+                        </div>
+
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">System Maintenance Notice</h5>
+                                <small class="text-muted">1 week ago</small>
+                            </div>
+                            <p class="mb-1">The portal will be undergoing maintenance on Saturday, 2:00 AM - 4:00 AM. Please plan your submissions accordingly.</p>
+                            <small class="text-muted">Posted by: System Administrator</small>
+                        </div>
+
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Updated Inspection Guidelines</h5>
+                                <small class="text-muted">2 weeks ago</small>
+                            </div>
+                            <p class="mb-1">New inspection guidelines have been published. Please review the updated requirements for your submissions.</p>
+                            <small class="text-muted">Posted by: BFAR Administration</small>
+                        </div>
+                    </div>
+
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

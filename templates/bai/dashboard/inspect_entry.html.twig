@@ -1,0 +1,322 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inspect Entry{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Inspect Entry #{{ entry_id }}</h1>
+                        <a href="{{ path('bai_entries') }}" class="btn btn-secondary">Back to Entries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Entry Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Entry Number:</strong> ENT-2024-001</p>
+                            <p><strong>Type:</strong> Seeds</p>
+                            <p><strong>Client:</strong> John Doe</p>
+                            <p><strong>Submission Date:</strong> 2024-03-15</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span class="badge bg-warning">For Inspection</span></p>
+                            <p><strong>Customs Port:</strong> Manila Port</p>
+                            <p><strong>Last Updated:</strong> 2024-03-15 14:30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Documents</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">SSDT</label>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-sm" target="_blank">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">SPS</label>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-sm" target="_blank">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Health Certificate</label>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-sm" target="_blank">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Phyto/MAV</label>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-sm" target="_blank">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Inspection Form</h5>
+                    <form method="post" id="inspectionForm">
+                        <div class="mb-4">
+                            <label class="form-label">Document Verification</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="doc1" required>
+                                <label class="form-check-label" for="doc1">
+                                    All required documents are present and valid
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="doc2" required>
+                                <label class="form-check-label" for="doc2">
+                                    Documents are properly signed and dated
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="doc3" required>
+                                <label class="form-check-label" for="doc3">
+                                    Information matches across all documents
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Physical Inspection</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="phy1" required>
+                                <label class="form-check-label" for="phy1">
+                                    Product matches documentation
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="phy2" required>
+                                <label class="form-check-label" for="phy2">
+                                    No signs of contamination
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="phy3" required>
+                                <label class="form-check-label" for="phy3">
+                                    Proper packaging and labeling
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="inspectionNotes" class="form-label">Inspection Notes</label>
+                            <textarea class="form-control" id="inspectionNotes" rows="4" required></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="recommendation" class="form-label">Recommendation</label>
+                            <select class="form-select" id="recommendation" required>
+                                <option value="">Select recommendation</option>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                                <option value="request_info">Request Additional Information</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ path('bai_entries') }}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Submit Inspection</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Inspection History</h5>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Initial Review</h6>
+                                <small class="text-muted">2024-03-15 14:30</small>
+                            </div>
+                            <p class="mb-1">Documents received and under review</p>
+                            <small class="text-muted">By: Jane Smith</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#requestInfoModal">
+                            <i class="fas fa-question-circle me-2"></i> Request Additional Information
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#scheduleInspectionModal">
+                            <i class="fas fa-calendar me-2"></i> Schedule Physical Inspection
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+                            <i class="fas fa-file-alt me-2"></i> Generate Inspection Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Request Information Modal -->
+<div class="modal fade" id="requestInfoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Request Additional Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="requestedInfo" class="form-label">Information Required</label>
+                        <textarea class="form-control" id="requestedInfo" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">Deadline</label>
+                        <input type="date" class="form-control" id="deadline" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Send Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule Inspection Modal -->
+<div class="modal fade" id="scheduleInspectionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Schedule Physical Inspection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="inspectionDate" class="form-label">Inspection Date</label>
+                        <input type="date" class="form-control" id="inspectionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inspectionTime" class="form-label">Inspection Time</label>
+                        <input type="time" class="form-control" id="inspectionTime" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inspectionLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="inspectionLocation" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Schedule Inspection</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Report Modal -->
+<div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate Inspection Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="reportType" class="form-label">Report Type</label>
+                        <select class="form-select" id="reportType" required>
+                            <option value="">Select report type</option>
+                            <option value="preliminary">Preliminary Report</option>
+                            <option value="final">Final Report</option>
+                            <option value="detailed">Detailed Report</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reportFormat" class="form-label">Format</label>
+                        <select class="form-select" id="reportFormat" required>
+                            <option value="pdf">PDF</option>
+                            <option value="docx">Word Document</option>
+                            <option value="xlsx">Excel Spreadsheet</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Generate Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inspectionForm = document.getElementById('inspectionForm');
+    const recommendation = document.getElementById('recommendation');
+
+    inspectionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Add form submission logic
+        console.log('Submitting inspection form...');
+    });
+
+    recommendation.addEventListener('change', function() {
+        // Add recommendation change logic
+        console.log('Recommendation changed:', this.value);
+    });
+});
+</script>
+{% endblock %} 

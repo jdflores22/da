@@ -1,0 +1,333 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Help & Documentation{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-1">Help & Documentation</h1>
+                            <p class="text-muted mb-0">Find answers to common questions and learn how to use the admin portal</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactSupportModal">
+                                <i class="fas fa-headset me-2"></i>Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Quick Links -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search documentation...">
+                        <button class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Quick Links</h5>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-book me-2"></i>User Guide
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-video me-2"></i>Video Tutorials
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-question-circle me-2"></i>FAQ
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-download me-2"></i>Download Manual
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Documentation Sections -->
+    <div class="row">
+        <!-- Getting Started -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Getting Started</h5>
+                    <div class="accordion" id="gettingStartedAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    System Overview
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#gettingStartedAccordion">
+                                <div class="accordion-body">
+                                    <p>Learn about the key features and components of the admin portal:</p>
+                                    <ul>
+                                        <li>Dashboard Overview</li>
+                                        <li>User Management</li>
+                                        <li>Entry Processing</li>
+                                        <li>System Settings</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    First-Time Setup
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                                <div class="accordion-body">
+                                    <p>Complete these steps to set up your admin account:</p>
+                                    <ol>
+                                        <li>Configure your profile</li>
+                                        <li>Set up notifications</li>
+                                        <li>Review security settings</li>
+                                        <li>Customize dashboard</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">User Management</h5>
+                    <div class="accordion" id="userManagementAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Creating Users
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse show" data-bs-parent="#userManagementAccordion">
+                                <div class="accordion-body">
+                                    <p>Step-by-step guide to creating new users:</p>
+                                    <ol>
+                                        <li>Navigate to Users section</li>
+                                        <li>Click "Add New User"</li>
+                                        <li>Fill in user details</li>
+                                        <li>Assign roles and permissions</li>
+                                        <li>Send invitation email</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    Managing Permissions
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#userManagementAccordion">
+                                <div class="accordion-body">
+                                    <p>Learn about the different permission levels:</p>
+                                    <ul>
+                                        <li>Administrator</li>
+                                        <li>Agency Staff</li>
+                                        <li>Client Users</li>
+                                        <li>Custom Roles</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entry Processing -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Entry Processing</h5>
+                    <div class="accordion" id="entryProcessingAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                    Review Process
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse show" data-bs-parent="#entryProcessingAccordion">
+                                <div class="accordion-body">
+                                    <p>How to review and process entries:</p>
+                                    <ol>
+                                        <li>Access pending entries</li>
+                                        <li>Review documentation</li>
+                                        <li>Verify information</li>
+                                        <li>Approve or reject</li>
+                                        <li>Add comments if needed</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+                                    Status Updates
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#entryProcessingAccordion">
+                                <div class="accordion-body">
+                                    <p>Understanding entry statuses:</p>
+                                    <ul>
+                                        <li>Pending Review</li>
+                                        <li>For Inspection</li>
+                                        <li>Inspection Completed</li>
+                                        <li>For Payment</li>
+                                        <li>Approved/Rejected</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">System Settings</h5>
+                    <div class="accordion" id="systemSettingsAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
+                                    General Settings
+                                </button>
+                            </h2>
+                            <div id="collapseSeven" class="accordion-collapse collapse show" data-bs-parent="#systemSettingsAccordion">
+                                <div class="accordion-body">
+                                    <p>Configure general system settings:</p>
+                                    <ul>
+                                        <li>Portal Information</li>
+                                        <li>Email Templates</li>
+                                        <li>Notification Settings</li>
+                                        <li>Appearance Options</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight">
+                                    Security Settings
+                                </button>
+                            </h2>
+                            <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#systemSettingsAccordion">
+                                <div class="accordion-body">
+                                    <p>Manage security configurations:</p>
+                                    <ul>
+                                        <li>Password Policies</li>
+                                        <li>Session Timeouts</li>
+                                        <li>IP Restrictions</li>
+                                        <li>Two-Factor Authentication</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Support Modal -->
+<div class="modal fade" id="contactSupportModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Contact Support</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" required>
+                            <option value="">Select a category</option>
+                            <option value="technical">Technical Issue</option>
+                            <option value="account">Account Management</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Priority</label>
+                        <select class="form-select" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Attachments</label>
+                        <input type="file" class="form-control" multiple>
+                        <small class="text-muted">You can attach up to 3 files (max 5MB each)</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Submit Ticket</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle search functionality
+    const searchInput = document.querySelector('input[type="search"]');
+    searchInput.addEventListener('input', function(e) {
+        // Implement search logic
+        console.log('Searching for:', e.target.value);
+    });
+
+    // Handle accordion state
+    const accordionButtons = document.querySelectorAll('.accordion-button');
+    accordionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Implement accordion logic if needed
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

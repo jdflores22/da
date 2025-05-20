@@ -1,0 +1,269 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BAI Dashboard{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .stat-card {
+        transition: transform 0.2s;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .stat-icon {
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+    .stat-card:hover .stat-icon {
+        opacity: 1;
+    }
+    .table th {
+        font-weight: 600;
+        background-color: #f8f9fa;
+    }
+    .badge {
+        padding: 0.5em 0.8em;
+        font-weight: 500;
+    }
+    .action-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-radius: 0.25rem;
+    }
+    .quick-actions .list-group-item {
+        border: none;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem !important;
+        transition: all 0.2s;
+    }
+    .quick-actions .list-group-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+    }
+    .announcement-card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .announcement-item {
+        border: none;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.2s;
+    }
+    .announcement-item:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card dashboard-header text-white">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-2">Welcome, {{ user.firstName }} {{ user.middleName ? user.middleName ~ ' ' : '' }}{{ user.lastName }}!</h1>
+                            <p class="mb-0 text-white-50">Bureau of Animal Industry Entry Management System</p>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-1"><i class="fas fa-calendar-alt me-2"></i>{{ "now"|date("F d, Y") }}</p>
+                            <p class="mb-0"><i class="fas fa-clock me-2"></i>{{ "now"|date("h:i A") }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card stat-card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">Pending Entries</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|filter(e => e.status == 'pending')|length }}</h2>
+                        </div>
+                        <i class="fas fa-clock fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card stat-card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">For Inspection</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|filter(e => e.status == 'for_inspection')|length }}</h2>
+                        </div>
+                        <i class="fas fa-search fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card stat-card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">For Payment</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|filter(e => e.status == 'awaiting_payment')|length }}</h2>
+                        </div>
+                        <i class="fas fa-money-bill fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card stat-card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">Approved</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|filter(e => e.status == 'approved')|length }}</h2>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card stat-card bg-danger text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">Rejected</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|filter(e => e.status == 'rejected')|length }}</h2>
+                        </div>
+                        <i class="fas fa-times-circle fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card stat-card bg-secondary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-1 text-white-50">Total Entries</h6>
+                            <h2 class="mt-2 mb-0">{{ entries|length }}</h2>
+                        </div>
+                        <i class="fas fa-list fa-2x stat-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="card-title mb-1">Recent Entries</h5>
+                            <p class="text-muted mb-0">Latest submissions and updates</p>
+                        </div>
+                        <a href="{{ path('bai_entries') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-list me-2"></i>View All Entries
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Entry #</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Submission Date</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in entries|slice(0, 5) %}
+                                <tr>
+                                    <td class="fw-medium">{{ entry.entryNumber }}</td>
+                                    <td>{{ entry.animalType|title }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ entry.status == 'pending' ? 'warning' : (entry.status == 'approved' ? 'success' : (entry.status == 'rejected' ? 'danger' : 'info')) }}">
+                                            {{ entry.status|title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ entry.submissionDate|date('M d, Y H:i') }}</td>
+                                    <td class="text-end">
+                                        <a href="{{ path('bai_entry_show', {'id': entry.id}) }}" class="btn btn-sm btn-info action-btn">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        {% if entry.status == 'pending' or entry.status == 'for_inspection' %}
+                                            <a href="{{ path('bai_entry_inspect', {'id': entry.id}) }}" class="btn btn-sm btn-primary action-btn">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Quick Actions</h5>
+                    <div class="list-group quick-actions">
+                        <a href="{{ path('bai_entries') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-list me-2 text-primary"></i> View All Entries
+                        </a>
+                        <a href="{{ path('bai_reports') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-chart-bar me-2 text-success"></i> Generate Reports
+                        </a>
+                        <a href="{{ path('bai_announcements') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-bullhorn me-2 text-warning"></i> View Announcements
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card announcement-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Recent Announcements</h5>
+                    <div class="list-group">
+                        <div class="list-group-item announcement-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-medium">New Inspection Guidelines</h6>
+                                <small class="text-muted">2 days ago</small>
+                            </div>
+                            <p class="mb-1 text-muted">Updated guidelines for seed inspection procedures.</p>
+                            <small class="text-primary">Read more <i class="fas fa-arrow-right ms-1"></i></small>
+                        </div>
+                        <div class="list-group-item announcement-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 fw-medium">System Maintenance</h6>
+                                <small class="text-muted">1 week ago</small>
+                            </div>
+                            <p class="mb-1 text-muted">Scheduled maintenance on Saturday, 2:00 AM - 4:00 AM.</p>
+                            <small class="text-primary">Read more <i class="fas fa-arrow-right ms-1"></i></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

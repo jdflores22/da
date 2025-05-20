@@ -1,0 +1,471 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Reports</h1>
+                        <div>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exportReportModal">
+                                <i class="fas fa-file-export me-2"></i>Export Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label for="report_type" class="form-label">Report Type</label>
+                            <select class="form-select" id="report_type">
+                                <option value="entries">Entries Report</option>
+                                <option value="users">Users Report</option>
+                                <option value="activity">Activity Report</option>
+                                <option value="inspection">Inspection Report</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="agency" class="form-label">Agency</label>
+                            <select class="form-select" id="agency">
+                                <option value="">All Agencies</option>
+                                <option value="bai">BAI</option>
+                                <option value="bfar">BFAR</option>
+                                <option value="bpi">BPI</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_from" class="form-label">Date From</label>
+                            <input type="date" class="form-control" id="date_from">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date_to" class="form-label">Date To</label>
+                            <input type="date" class="form-control" id="date_to">
+                        </div>
+                    </div>
+
+                    <!-- Entries Report -->
+                    <div id="entries_report" class="report-section">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Entries</h6>
+                                        <h2 class="mb-0">1,234</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Approved</h6>
+                                        <h2 class="mb-0">856</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Pending</h6>
+                                        <h2 class="mb-0">245</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Rejected</h6>
+                                        <h2 class="mb-0">133</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Entries by Agency</h5>
+                                        <div id="agencyChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Entries by Status</h5>
+                                        <div id="statusChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Recent Entries</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Entry #</th>
+                                                <th>Client</th>
+                                                <th>Agency</th>
+                                                <th>Status</th>
+                                                <th>Submission Date</th>
+                                                <th>Processing Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>12345</td>
+                                                <td>John Doe (ABC Company)</td>
+                                                <td><span class="badge bg-info">BAI</span></td>
+                                                <td><span class="badge bg-success">Approved</span></td>
+                                                <td>2024-03-15</td>
+                                                <td>2 days</td>
+                                            </tr>
+                                            <tr>
+                                                <td>12346</td>
+                                                <td>Jane Smith (XYZ Corp)</td>
+                                                <td><span class="badge bg-success">BFAR</span></td>
+                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                <td>2024-03-14</td>
+                                                <td>-</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users Report -->
+                    <div id="users_report" class="report-section d-none">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Users</h6>
+                                        <h2 class="mb-0">150</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Active Users</h6>
+                                        <h2 class="mb-0">120</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">New This Month</h6>
+                                        <h2 class="mb-0">15</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Inactive</h6>
+                                        <h2 class="mb-0">30</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Users by Role</h5>
+                                        <canvas id="roleChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">User Activity</h5>
+                                        <canvas id="activityChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Report -->
+                    <div id="activity_report" class="report-section d-none">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Actions</h6>
+                                        <h2 class="mb-0">5,678</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Successful</h6>
+                                        <h2 class="mb-0">5,234</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Warnings</h6>
+                                        <h2 class="mb-0">234</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Errors</h6>
+                                        <h2 class="mb-0">210</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Recent Activity</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>User</th>
+                                                <th>Action</th>
+                                                <th>Details</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2024-03-15 14:30</td>
+                                                <td>John Admin</td>
+                                                <td>Updated Entry Status</td>
+                                                <td>Entry #12345 - Approved</td>
+                                                <td><span class="badge bg-success">Success</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2024-03-15 14:25</td>
+                                                <td>Jane Admin</td>
+                                                <td>Created Announcement</td>
+                                                <td>New Import Guidelines</td>
+                                                <td><span class="badge bg-success">Success</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Report -->
+                    <div id="inspection_report" class="report-section d-none">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Inspections</h6>
+                                        <h2 class="mb-0">456</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Passed</h6>
+                                        <h2 class="mb-0">389</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Pending</h6>
+                                        <h2 class="mb-0">45</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Failed</h6>
+                                        <h2 class="mb-0">22</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Inspection Results by Agency</h5>
+                                        <canvas id="inspectionAgencyChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Inspection Timeline</h5>
+                                        <canvas id="inspectionTimelineChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Report Modal -->
+<div class="modal fade" id="exportReportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="export_format" class="form-label">Format</label>
+                        <select class="form-select" id="export_format" required>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_from" class="form-label">Date From</label>
+                        <input type="date" class="form-control" id="export_date_from">
+                    </div>
+                    <div class="mb-3">
+                        <label for="export_date_to" class="form-label">Date To</label>
+                        <input type="date" class="form-control" id="export_date_to">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="include_charts">
+                            <label class="form-check-label" for="include_charts">
+                                Include Charts
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Export Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Agency Chart
+    const agencyOptions = {
+        series: [450, 380, 404],
+        chart: {
+            type: 'pie',
+            height: 300
+        },
+        labels: ['BAI', 'BFAR', 'BPI'],
+        colors: ['#0dcaf0', '#198754', '#ffc107'],
+        legend: {
+            position: 'bottom'
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '0%'
+                }
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    const agencyChart = new ApexCharts(document.querySelector("#agencyChart"), agencyOptions);
+    agencyChart.render();
+
+    // Status Chart
+    const statusOptions = {
+        series: [856, 245, 133],
+        chart: {
+            type: 'donut',
+            height: 300
+        },
+        labels: ['Approved', 'Pending', 'Rejected'],
+        colors: ['#198754', '#ffc107', '#dc3545'],
+        legend: {
+            position: 'bottom'
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '70%'
+                }
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    const statusChart = new ApexCharts(document.querySelector("#statusChart"), statusOptions);
+    statusChart.render();
+
+    // Report Type Change Handler
+    document.getElementById('report_type').addEventListener('change', function() {
+        const sections = document.querySelectorAll('.report-section');
+        sections.forEach(section => section.classList.add('d-none'));
+        document.getElementById(this.value + '_report').classList.remove('d-none');
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BAI Entry Details{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bai_dashboard') }}">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('bai_entries') }}">
+                            <i class="fas fa-list"></i> Entries
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bai_reports') }}">
+                            <i class="fas fa-chart-bar"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bai_announcements') }}">
+                            <i class="fas fa-bullhorn"></i> Announcements
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Entry Details</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{{ path('bai_entries') }}" class="btn btn-sm btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left"></i> Back to Entries
+                    </a>
+                    <a href="{{ path('bai_entry_inspect', {'id': entry.id}) }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-clipboard-check"></i> Inspect Entry
+                    </a>
+                </div>
+            </div>
+
+            <!-- Entry Information -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Entry Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Entry Number</dt>
+                                        <dd class="col-sm-8">{{ entry.entryNumber }}</dd>
+
+                                        <dt class="col-sm-4">Client</dt>
+                                        <dd class="col-sm-8">{{ entry.client }}</dd>
+
+                                        <dt class="col-sm-4">Animal Type</dt>
+                                        <dd class="col-sm-8">{{ entry.animalType|title }}</dd>
+
+                                        <dt class="col-sm-4">Quantity</dt>
+                                        <dd class="col-sm-8">{{ entry.quantity }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Status</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-{{ entry.status == 'pending' ? 'warning' : (entry.status == 'approved' ? 'success' : 'danger') }}">
+                                                {{ entry.status|title }}
+                                            </span>
+                                        </dd>
+
+                                        <dt class="col-sm-4">Submission Date</dt>
+                                        <dd class="col-sm-8">{{ entry.submissionDate|date('F j, Y H:i') }}</dd>
+
+                                        <dt class="col-sm-4">Last Updated</dt>
+                                        <dd class="col-sm-8">{{ entry.updatedAt|date('F j, Y H:i') }}</dd>
+
+                                        <dt class="col-sm-4">Inspector</dt>
+                                        <dd class="col-sm-8">{{ entry.inspector ?? 'Not assigned' }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health Information -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Health Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Health Status</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge bg-{{ entry.healthStatus == 'healthy' ? 'success' : (entry.healthStatus == 'quarantine' ? 'warning' : 'danger') }}">
+                                                {{ entry.healthStatus|title }}
+                                            </span>
+                                        </dd>
+
+                                        <dt class="col-sm-4">Vaccination</dt>
+                                        <dd class="col-sm-8">{{ entry.vaccinationStatus|title }}</dd>
+
+                                        <dt class="col-sm-4">Quarantine Period</dt>
+                                        <dd class="col-sm-8">{{ entry.quarantinePeriod ?? 'N/A' }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Health Certificate</dt>
+                                        <dd class="col-sm-8">
+                                            {% if entry.healthCertificate %}
+                                                <a href="{{ entry.healthCertificate }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-file-pdf"></i> View Certificate
+                                                </a>
+                                            {% else %}
+                                                <span class="text-muted">Not available</span>
+                                            {% endif %}
+                                        </dd>
+
+                                        <dt class="col-sm-4">Test Results</dt>
+                                        <dd class="col-sm-8">
+                                            {% if entry.testResults %}
+                                                <a href="{{ entry.testResults }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-file-pdf"></i> View Results
+                                                </a>
+                                            {% else %}
+                                                <span class="text-muted">Not available</span>
+                                            {% endif %}
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes and Comments -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Notes and Comments</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6>Inspection Notes</h6>
+                                <p class="text-muted">{{ entry.inspectionNotes ?? 'No inspection notes available.' }}</p>
+                            </div>
+                            <div>
+                                <h6>Additional Comments</h6>
+                                <p class="text-muted">{{ entry.comments ?? 'No additional comments.' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Report{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Edit Report</h1>
+                        <a href="{{ path('admin_reports') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to list
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ report.title }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type</label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="">Select a type</option>
+                                <option value="bug" {{ report.type == 'bug' ? 'selected' : '' }}>Bug Report</option>
+                                <option value="feature" {{ report.type == 'feature' ? 'selected' : '' }}>Feature Request</option>
+                                <option value="improvement" {{ report.type == 'improvement' ? 'selected' : '' }}>Improvement</option>
+                                <option value="other" {{ report.type == 'other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" name="content" rows="10" required>{{ report.content }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="pending" {{ report.status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="in_progress" {{ report.status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="completed" {{ report.status == 'completed' ? 'selected' : '' }}>Completed</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update Report</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

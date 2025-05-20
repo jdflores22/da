@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BPI Reports{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bpi_dashboard') }}">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bpi_entries') }}">
+                            <i class="fas fa-list"></i> Entries
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('bpi_reports') }}">
+                            <i class="fas fa-chart-bar"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('bpi_announcements') }}">
+                            <i class="fas fa-bullhorn"></i> Announcements
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">BPI Reports</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="reportFilterForm" class="row g-3">
+                                <div class="col-md-3">
+                                    <label for="dateFrom" class="form-label">Date From</label>
+                                    <input type="date" class="form-control" id="dateFrom" name="dateFrom">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="dateTo" class="form-label">Date To</label>
+                                    <input type="date" class="form-control" id="dateTo" name="dateTo">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="qualityGrade" class="form-label">Quality Grade</label>
+                                    <select class="form-select" id="qualityGrade" name="qualityGrade">
+                                        <option value="">All Grades</option>
+                                        <option value="A">Grade A</option>
+                                        <option value="B">Grade B</option>
+                                        <option value="C">Grade C</option>
+                                        <option value="D">Grade D</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="">All Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Entries</h5>
+                            <h2 class="card-text">{{ totalEntries }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Grade A</h5>
+                            <h2 class="card-text">{{ gradeAEntries }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Pending</h5>
+                            <h2 class="card-text">{{ pendingEntries }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Rejected</h5>
+                            <h2 class="card-text">{{ rejectedEntries }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Entries by Quality Grade</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="entriesByGradeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Moisture Content Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="moistureContentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Report Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Detailed Report</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Entry #</th>
+                                            <th>Client</th>
+                                            <th>Quality Grade</th>
+                                            <th>Moisture Content</th>
+                                            <th>Submission Date</th>
+                                            <th>Status</th>
+                                            <th>Inspector</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entry in entries %}
+                                        <tr>
+                                            <td>{{ entry.entryNumber }}</td>
+                                            <td>{{ entry.client }}</td>
+                                            <td>{{ entry.qualityGrade }}</td>
+                                            <td>{{ entry.moistureContent }}%</td>
+                                            <td>{{ entry.submissionDate|date('Y-m-d') }}</td>
+                                            <td><span class="badge bg-{{ entry.status == 'pending' ? 'warning' : (entry.status == 'approved' ? 'success' : 'danger') }}">{{ entry.status|title }}</span></td>
+                                            <td>{{ entry.inspector }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Entries by Grade Chart
+    const gradeCtx = document.getElementById('entriesByGradeChart').getContext('2d');
+    new Chart(gradeCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Grade A', 'Grade B', 'Grade C', 'Grade D'],
+            datasets: [{
+                data: [{{ gradeAEntries }}, {{ gradeBEntries }}, {{ gradeCEntries }}, {{ gradeDEntries }}],
+                backgroundColor: ['#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
+            }]
+        }
+    });
+
+    // Moisture Content Distribution Chart
+    const moistureCtx = document.getElementById('moistureContentChart').getContext('2d');
+    new Chart(moistureCtx, {
+        type: 'bar',
+        data: {
+            labels: ['<10%', '10-15%', '15-20%', '>20%'],
+            datasets: [{
+                label: 'Number of Entries',
+                data: [{{ moistureLessThan10 }}, {{ moisture10To15 }}, {{ moisture15To20 }}, {{ moistureMoreThan20 }}],
+                backgroundColor: '#4e73df'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Filter form submission
+    const filterForm = document.getElementById('reportFilterForm');
+    filterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Add your filter logic here
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

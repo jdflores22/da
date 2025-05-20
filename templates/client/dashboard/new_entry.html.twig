@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Entry{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">New Entry</h1>
+                        <a href="{{ path('app_client_entries') }}" class="btn btn-secondary">Back to Entries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" data-turbo="false">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="agency" class="form-label">Receiving Agency</label>
+                                    <select class="form-select" id="agency" name="agency" required {% if app.request.query.get('agency') %}disabled{% endif %}>
+                                        <option value="">Select Agency</option>
+                                        <option value="bai" {% if app.request.query.get('agency') == 'bai' %}selected{% endif %}>BAI</option>
+                                        <option value="bfar" {% if app.request.query.get('agency') == 'bfar' %}selected{% endif %}>BFAR</option>
+                                        <option value="bpi" {% if app.request.query.get('agency') == 'bpi' %}selected{% endif %}>BPI</option>
+                                    </select>
+                                    {% if app.request.query.get('agency') %}
+                                        <input type="hidden" name="agency" value="{{ app.request.query.get('agency') }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="entry_number" class="form-label">Entry Number</label>
+                                    <input type="text" class="form-control" id="entry_number" name="entry_number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="customs_port" class="form-label">Customs Port</label>
+                                    <input type="text" class="form-control" id="customs_port" name="customs_port" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ssdt" class="form-label">SSDT</label>
+                                    <input type="file" class="form-control" id="ssdt" name="ssdt" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="sps" class="form-label">SPS</label>
+                                    <input type="file" class="form-control" id="sps" name="sps" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="health_certificate" class="form-label">Health Certificate</label>
+                                    <input type="file" class="form-control" id="health_certificate" name="health_certificate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phyto_mav" class="form-label">Phyto/MAV</label>
+                                    <input type="file" class="form-control" id="phyto_mav" name="phyto_mav" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="rfi" class="form-label">RFI</label>
+                                    <input type="file" class="form-control" id="rfi" name="rfi" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="xray_image" class="form-label">X-ray Image</label>
+                                    <input type="file" class="form-control" id="xray_image" name="xray_image" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ path('app_client_entries') }}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Submit Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

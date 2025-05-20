@@ -1,0 +1,413 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}System Maintenance{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-1">System Maintenance</h1>
+                            <p class="text-muted mb-0">Schedule and manage system maintenance tasks</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+                                <i class="fas fa-plus me-2"></i>Schedule Maintenance
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance Overview -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Upcoming</h6>
+                            <h3 class="mb-0">3</h3>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-3 rounded">
+                            <i class="fas fa-calendar-alt fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">In Progress</h6>
+                            <h3 class="mb-0">1</h3>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 p-3 rounded">
+                            <i class="fas fa-tools fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Completed</h6>
+                            <h3 class="mb-0">24</h3>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Next Scheduled</h6>
+                            <h3 class="mb-0">Mar 20</h3>
+                        </div>
+                        <div class="bg-info bg-opacity-10 p-3 rounded">
+                            <i class="fas fa-clock fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance Schedule -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title mb-0">Maintenance Schedule</h5>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm active">All</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm">Upcoming</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm">In Progress</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm">Completed</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Scheduled Date</th>
+                                    <th>Duration</th>
+                                    <th>Impact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Database Optimization</td>
+                                    <td><span class="badge bg-primary">Routine</span></td>
+                                    <td><span class="badge bg-warning">In Progress</span></td>
+                                    <td>2024-03-15 22:00</td>
+                                    <td>2 hours</td>
+                                    <td><span class="badge bg-danger">High</span></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTaskModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-success">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Security Updates</td>
+                                    <td><span class="badge bg-danger">Critical</span></td>
+                                    <td><span class="badge bg-info">Scheduled</span></td>
+                                    <td>2024-03-20 23:00</td>
+                                    <td>1 hour</td>
+                                    <td><span class="badge bg-danger">High</span></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTaskModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Backup Verification</td>
+                                    <td><span class="badge bg-primary">Routine</span></td>
+                                    <td><span class="badge bg-success">Completed</span></td>
+                                    <td>2024-03-14 01:00</td>
+                                    <td>30 minutes</td>
+                                    <td><span class="badge bg-success">Low</span></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTaskModal">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule Maintenance Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Schedule Maintenance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Task Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" required>
+                                <option value="routine">Routine</option>
+                                <option value="critical">Critical</option>
+                                <option value="emergency">Emergency</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Scheduled Date</label>
+                            <input type="datetime-local" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Duration</label>
+                            <select class="form-select" required>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="120">2 hours</option>
+                                <option value="180">3 hours</option>
+                                <option value="240">4 hours</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Impact Level</label>
+                            <select class="form-select" required>
+                                <option value="low">Low - No service interruption</option>
+                                <option value="medium">Medium - Partial service interruption</option>
+                                <option value="high">High - Full service interruption</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Assigned To</label>
+                            <select class="form-select" required>
+                                <option value="1">John Doe (System Admin)</option>
+                                <option value="2">Jane Smith (Database Admin)</option>
+                                <option value="3">Bob Johnson (Network Admin)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Affected Systems</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="web" checked>
+                            <label class="form-check-label">Web Portal</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="database">
+                            <label class="form-check-label">Database</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="api">
+                            <label class="form-check-label">API Services</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notification Settings</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="email" checked>
+                            <label class="form-check-label">Email Notifications</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="sms">
+                            <label class="form-check-label">SMS Notifications</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="portal">
+                            <label class="form-check-label">Portal Announcement</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Schedule</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Task Modal -->
+<div class="modal fade" id="viewTaskModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Maintenance Task Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Task Information</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>Task Name:</th>
+                                <td>Database Optimization</td>
+                            </tr>
+                            <tr>
+                                <th>Type:</th>
+                                <td><span class="badge bg-primary">Routine</span></td>
+                            </tr>
+                            <tr>
+                                <th>Status:</th>
+                                <td><span class="badge bg-warning">In Progress</span></td>
+                            </tr>
+                            <tr>
+                                <th>Scheduled Date:</th>
+                                <td>2024-03-15 22:00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Technical Details</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>Duration:</th>
+                                <td>2 hours</td>
+                            </tr>
+                            <tr>
+                                <th>Impact Level:</th>
+                                <td><span class="badge bg-danger">High</span></td>
+                            </tr>
+                            <tr>
+                                <th>Assigned To:</th>
+                                <td>John Doe (System Admin)</td>
+                            </tr>
+                            <tr>
+                                <th>Created By:</th>
+                                <td>Jane Smith</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h6>Description</h6>
+                    <p>Perform routine database optimization including index rebuilding, statistics updates, and cleanup of temporary tables.</p>
+                </div>
+                <div class="mt-4">
+                    <h6>Affected Systems</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Web Portal</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Database</li>
+                        <li><i class="fas fa-times text-danger me-2"></i>API Services</li>
+                    </ul>
+                </div>
+                <div class="mt-4">
+                    <h6>Progress Updates</h6>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-primary"></div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">Task Started</h6>
+                                <p class="text-muted mb-0">John Doe started the maintenance task</p>
+                                <small class="text-muted">2024-03-15 22:00</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-info"></div>
+                            <div class="timeline-content">
+                                <h6 class="mb-1">Index Rebuilding</h6>
+                                <p class="text-muted mb-0">Started rebuilding database indexes</p>
+                                <small class="text-muted">2024-03-15 22:15</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Mark as Completed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle maintenance type change
+    const maintenanceType = document.querySelector('select[name="type"]');
+    maintenanceType.addEventListener('change', function(e) {
+        const impactLevel = document.querySelector('select[name="impact"]');
+        if (e.target.value === 'critical' || e.target.value === 'emergency') {
+            impactLevel.value = 'high';
+            impactLevel.disabled = true;
+        } else {
+            impactLevel.disabled = false;
+        }
+    });
+
+    // Handle filter buttons
+    const filterButtons = document.querySelectorAll('.btn-group .btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            // Implement filter logic
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

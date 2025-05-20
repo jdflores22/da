@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Agricheck{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🌾</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}{# Encore references removed #}{% endblock %}
+        {% block javascripts %}{# Encore references removed #}{% endblock %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <style>
+            :root {
+                --primary-color: #2E7D32;
+                --secondary-color: #388E3C;
+                --accent-color: #4CAF50;
+                --text-dark: #2C3E50;
+                --text-light: #7F8C8D;
+                --white: #FFFFFF;
+                --background-light: #F8F9FA;
+                --border-radius: 8px;
+                --box-shadow: 0 2px 4px rgba(0,0,0,.08);
+            }
+            
+            body { 
+                background-color: var(--background-light);
+                font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+                color: var(--text-dark);
+                line-height: 1.6;
+            }
+            
+            .navbar {
+                background-color: var(--white) !important;
+                box-shadow: var(--box-shadow);
+                padding: 1rem 0;
+            }
+
+            .navbar-brand {
+                color: var(--primary-color) !important;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
+
+            .nav-link {
+                color: var(--text-dark) !important;
+                font-weight: 500;
+                padding: 0.5rem 1rem !important;
+                transition: color 0.2s ease;
+            }
+
+            .nav-link:hover {
+                color: var(--primary-color) !important;
+            }
+            
+            .card {
+                border: none;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                margin-top:85px;
+            }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,.12);
+            }
+
+            .card-title {
+                color: var(--primary-color);
+                font-weight: 600;
+                margin-bottom: 1rem;
+            }
+
+            .form-control {
+                border-radius: var(--border-radius);
+                border: 1px solid #E0E0E0;
+                padding: 0.75rem 1rem;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .form-control:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.2rem rgba(46,125,50,.15);
+            }
+
+            .btn-primary {
+                background-color: var(--primary-color);
+                border: none;
+                border-radius: var(--border-radius);
+                padding: 0.75rem 1.5rem;
+                font-weight: 500;
+                transition: background-color 0.2s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: var(--secondary-color);
+            }
+
+            .alert {
+                border-radius: var(--border-radius);
+                border: none;
+                box-shadow: var(--box-shadow);
+            }
+
+            .user-dropdown-menu {
+                border-radius: var(--border-radius);
+                border: none;
+                box-shadow: 0 4px 12px rgba(0,0,0,.1);
+                padding: 0.5rem;
+            }
+
+            .user-dropdown-menu .dropdown-item {
+                border-radius: var(--border-radius);
+                padding: 0.75rem 1rem;
+                transition: background-color 0.2s ease;
+            }
+
+            .user-dropdown-menu .dropdown-item:hover {
+                background-color: var(--background-light);
+            }
+
+            .footer-custom {
+                background-color: var(--primary-color);
+                color: var(--white);
+                padding: 3rem 0;
+                margin-top: 4rem;
+            }
+
+            .footer-custom h6 {
+                font-weight: 600;
+                margin-bottom: 1.25rem;
+            }
+
+            .footer-custom a {
+                color: var(--white);
+                text-decoration: none;
+                transition: opacity 0.2s ease;
+            }
+
+            .footer-custom a:hover {
+                opacity: 0.8;
+            }
+
+            .footer-custom .social-icons a {
+                font-size: 1.25rem;
+                margin-right: 1rem;
+            }
+
+            @media (max-width: 768px) {
+                .navbar {
+                    padding: 0.75rem 0;
+                }
+                
+                .container.mt-5.pt-4 {
+                    padding-bottom: 120px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('homepage') }}">
+                    <i class="fas fa-seedling me-2"></i>Agricheck
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        {% if app.user %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <img src="https://ui-avatars.com/api/?name={{ app.user.firstName ~ '+' ~ app.user.lastName }}&background=2E7D32&color=fff&size=32" alt="Avatar" class="rounded-circle me-2" width="32" height="32">
+                                    <span class="d-none d-md-inline">{{ app.user.firstName }} {{ app.user.lastName }}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+                                    <li class="px-3 pt-3 pb-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <img src="https://ui-avatars.com/api/?name={{ app.user.firstName ~ '+' ~ app.user.lastName }}&background=2E7D32&color=fff&size=48" alt="Avatar" class="rounded-circle me-3" width="48" height="48">
+                                            <div>
+                                                <div class="fw-bold">{{ app.user.firstName }} {{ app.user.middleName ? app.user.middleName ~ ' ' : '' }}{{ app.user.lastName }}</div>
+                                                <div class="text-muted small">{{ app.user.roles[0]|replace({'ROLE_':''})|title }}</div>
+                                                <div class="text-muted small"><i class="fas fa-envelope me-1"></i>{{ app.user.email }}</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <i class="fas fa-user fa-fw me-2 text-primary"></i>
+                                            <div>
+                                                <div>My Profile</div>
+                                                <small class="text-muted">Account Settings</small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <i class="fas fa-inbox fa-fw me-2 text-info"></i>
+                                            <div>
+                                                <div>My Inbox</div>
+                                                <small class="text-muted">Messages & Emails</small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <i class="fas fa-tasks fa-fw me-2 text-warning"></i>
+                                            <div>
+                                                <div>My Tasks</div>
+                                                <small class="text-muted">To-do and Daily Tasks</small>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="px-3 pb-3 pt-2">
+                                        <a href="{{ path('app_logout') }}" class="btn btn-outline-primary w-100">Log Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">
+                                    <i class="fas fa-user-plus me-1"></i>Register
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5 pt-4">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }} shadow-sm">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% block body %}
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="card-title">Welcome to Agricheck</h4>
+                            <p class="card-text text-muted">
+                                Your comprehensive agricultural monitoring and tracking solution. Access our platform to:
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Monitor agricultural activities and progress</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Track resources and inventory</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Manage applications and requests</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Access real-time analytics and reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+
+        <footer class="footer-custom">
+            <div class="container">
+                <div class="row text-center text-md-start">
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h6>About Agricheck</h6>
+                        <p class="mb-3" style="opacity: 0.9;">
+                            Empowering agricultural management through innovative monitoring and tracking solutions.
+                        </p>
+                        <p class="mb-0" style="opacity: 0.8; font-size: 0.9rem;">
+                            © {{ "now"|date("Y") }} Agricheck. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h6>Quick Links</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><a href="{{ path('homepage') }}">Home</a></li>
+                            <li class="mb-2"><a href="{{ path('app_login') }}">Login</a></li>
+                            <li class="mb-2"><a href="{{ path('app_register') }}">Register</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-3 mb-4 mb-md-0">
+                        <h6>Contact Us</h6>
+                        <ul class="list-unstyled mb-0" style="opacity: 0.9;">
+                            <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@agricheck.com.ph</li>
+                            <li class="mb-2"><i class="fas fa-phone me-2"></i>+63 123 456 7890</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Quezon City, PH</li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <h6>Follow Us</h6>
+                        <div class="social-icons mb-3">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                        <p class="mb-0" style="opacity: 0.8; font-size: 0.9rem;">
+                            Stay connected for updates and news
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

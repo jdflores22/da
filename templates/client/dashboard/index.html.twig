@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client Dashboard{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h1 class="h3 mb-0">Welcome, {{ user.firstName }} {{ user.middleName ? user.middleName ~ ' ' : '' }}{{ user.lastName }}!</h1>
+                    <p class="mb-0">Manage your submissions and track their status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <a href="{{ path('app_client_entries_new', {'agency': 'bai'}) }}" class="text-decoration-none">
+                <div class="card mb-4 h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-seedling fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Submit to BAI</h5>
+                        <p class="card-text text-muted">Submit entries for seeds, lumber, and fruits</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ path('app_client_entries_new', {'agency': 'bfar'}) }}" class="text-decoration-none">
+                <div class="card mb-4 h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-fish fa-3x text-info"></i>
+                        </div>
+                        <h5 class="card-title">Submit to BFAR</h5>
+                        <p class="card-text text-muted">Submit entries for aquatic products and fish</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{{ path('app_client_entries_new', {'agency': 'bpi'}) }}" class="text-decoration-none">
+                <div class="card mb-4 h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-drumstick-bite fa-3x text-danger"></i>
+                        </div>
+                        <h5 class="card-title">Submit to BPI</h5>
+                        <p class="card-text text-muted">Submit entries for pork, chicken, beef, and animal meat</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Entries</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Entry #</th>
+                                    <th>Agency</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" class="text-center">No recent entries</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{{ path('app_client_entries') }}" class="btn btn-primary">View All Entries</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Announcements</h5>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <p class="mb-0">No recent announcements</p>
+                        </div>
+                    </div>
+                    <a href="{{ path('app_client_announcements') }}" class="btn btn-primary mt-3">View All Announcements</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
